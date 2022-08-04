@@ -3,8 +3,8 @@ FROM prairielearn/grader-python:latest
 
 # Set a new label for the image
 LABEL org.label-schema.license="AGPL-3.0" \
-      org.label-schema.vcs-url="stat-prairielearn-uiuc/grader-dl" \
-      org.label-schema.vendor="PrairieLearn Autograder for Deep Learning" \
+      org.label-schema.vcs-url="stat-prairielearn-uiuc/grader-adv-python" \
+      org.label-schema.vendor="PrairieLearn Autograder for Python with Extended Feedback" \
       maintainer="James Joseph Balamuta <balamut2@illinois.edu>"
 
 # Add layer for Deep Learning packages
