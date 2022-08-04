@@ -1,4 +1,4 @@
-# grader-dl
+# grader-adv-python
 
 This repository contains a Docker image that is a modification of the [Python PrairieLearn grading image](https://github.com/PrairieLearn/PrairieLearn/tree/d4b18e0ca301eb98bd90764e5f90892cea3841a1/graders/python).
 
