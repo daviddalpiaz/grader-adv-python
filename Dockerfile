@@ -8,7 +8,7 @@ LABEL org.label-schema.license="AGPL-3.0" \
       maintainer="James Joseph Balamuta <balamut2@illinois.edu>"
 
 # Add layer for Deep Learning packages
-COPY install.sh requirements-dl.txt /
+COPY install.sh /
 
 # Run the Deep Learning package requirements
 RUN /bin/bash /install.sh
