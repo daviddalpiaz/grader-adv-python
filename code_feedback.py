@@ -297,7 +297,7 @@ class Feedback:
             if type(data[i]) != type(ref[i]):  # noqa: E721
                 good = False
                 if report_failure:
-                    cls.add_feedback(f"{name}[{i}] should be of type {type(ref[i]).__name__)}")
+                    cls.add_feedback(f"{name}[{i}] should be of type {type(ref[i]).__name__}")
             elif data[i] != ref[i]:
                 good = False
 
