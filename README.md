@@ -21,3 +21,12 @@ To automate the deployment to DockerHub, the [`.github/workflows/docker-image.ym
 DOCKERHUB_TOKEN
 DOCKERHUB_USERNAME
 ```
+
+These are set under the repository's `Secret` tab.
+
+## Development notes
+
+When designing the new code check features, the focus was on improving how differences between objects are recorded.
+
+[`cpython/Lib/unittest/case.py`](https://github.com/python/cpython/blob/54ea127923eee1672fd67cc96a4a0b10961f52ed/Lib/unittest/case.py#L677)
+
