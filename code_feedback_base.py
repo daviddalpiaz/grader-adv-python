@@ -84,7 +84,7 @@ class Feedback:
 
         Adds some text to the feedback output for the current test.
         """
-        with open("/grade/run/" + cls.feedback_file + ".txt", 'a+',
+        with open(cls.feedback_file + ".txt", 'a+',
                   encoding='utf-8') as f:
             f.write(cls.buffer + text)
             f.write('\n')
