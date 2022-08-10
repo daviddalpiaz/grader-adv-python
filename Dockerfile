@@ -11,7 +11,12 @@ LABEL org.label-schema.license="AGPL-3.0" \
 COPY install.sh /
 
 # Add a modified version of code_feedback.py
-COPY code_feedback.py /python_autograder/
+COPY code_feedback_adv.py /python_autograder/
 
-# Run the Deep Learning package requirements
-RUN /bin/bash /install.sh
+# Extend the PrairieLearn grader by:
+# Added new expectations to the existing class
+# (renaming the existing version on disk & copying the extended expectations in)
+# and run install
+RUN mv /python_autograder/code_feedback.py /python_autograder/code_feedback_base.py && \
+    mv /python_autograder/code_feedback_adv.py /python_autograder/code_feedback.py && \
+    /bin/bash /install.sh
