@@ -26,6 +26,8 @@ These are set under the repository's `Secret` tab.
 
 ## Development notes
 
+### Expectation Design
+
 When designing the new code expectation features, the focus was on improving how differences are expressed to the end user.
 
 We took inspiration from: 
@@ -34,3 +36,18 @@ We took inspiration from:
 - [`r-lib/testthat/R/expectation.R`](https://github.com/r-lib/testthat/blob/426eb523f6772c76175d6e8d7ca04355b1ee7ad5/R/expectation.R#L38)
 
 Moreover, we referred to [3.3. Special Method Names]([https://docs.python.org/3/reference/datamodel.html#basic-customization](https://docs.python.org/3/reference/datamodel.html#special-method-names) for guidance on customizing Python classes.
+
+### Re-create local test environment
+
+To experiment with the class outside of the docker container, please setup the conda environment as described in `dev-grader.yml`. In shell, type:
+
+```bash
+conda env create -f dev-grader.yml
+conda activate dev-grader
+```
+
+Once done, deactivate the environment with:
+
+```bash
+conda deactivate
+```
