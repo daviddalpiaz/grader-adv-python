@@ -97,7 +97,7 @@ class Feedback(code_feedback_base.Feedback):
         """
 
         ok = not isinstance(x, desired_class)
-        fail_msg = f"'{name}' has object class '{desired_class}', not '{type(x).__name__}'"
+        fail_msg = f"'{name}' has object class '{type(x).__name__}', not '{desired_class}'"
 
         return cls.expect(ok, fail_msg, **kwargs)
 
