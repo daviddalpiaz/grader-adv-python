@@ -1,0 +1,11 @@
+name: dev-grader
+channels:
+- conda-forge
+- plotly
+dependencies:
+- python=3.9
+- pip>=22.0
+- jupyter
+- jupyterlab
+- pandas
+- numpy
