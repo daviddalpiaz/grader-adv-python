@@ -18,9 +18,16 @@ from code_feedback_adv import Feedback
 
 # %%
 
+# Barebones testcase
+class TestCase():
+    points = 0
+    name = ""
+
+test = TestCase()
+
 # Establish setup done by PLTest
 Feedback.set_main_output()
-Feedback.set_test("Hello")
+Feedback.set_test(test)
 
 # %%
 
@@ -30,3 +37,5 @@ import numpy as np
 x = np.matrix([0])
 
 Feedback.expect_numpy_array(x, 'x')
+
+# %%
