@@ -35,7 +35,7 @@ We took inspiration from:
 - [`cpython/Lib/unittest/case.py`](https://github.com/python/cpython/blob/54ea127923eee1672fd67cc96a4a0b10961f52ed/Lib/unittest/case.py#L677)
 - [`r-lib/testthat/R/expectation.R`](https://github.com/r-lib/testthat/blob/426eb523f6772c76175d6e8d7ca04355b1ee7ad5/R/expectation.R#L38)
 
-Moreover, we referred to [3.3. Special Method Names]([https://docs.python.org/3/reference/datamodel.html#basic-customization](https://docs.python.org/3/reference/datamodel.html#special-method-names) for guidance on customizing Python classes.
+Moreover, we referred to [3.3. Special Method Names](https://docs.python.org/3/reference/datamodel.html#basic-customization) for guidance on customizing Python classes.
 
 ### Re-create local test environment
 
