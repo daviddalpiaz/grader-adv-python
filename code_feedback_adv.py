@@ -36,7 +36,7 @@ class Feedback(code_feedback_base.Feedback):
         return self.okay
 
     @classmethod
-    def set_fail_fast(cls, fail_fast) -> None:
+    def set_fail_fast(cls, fail_fast:bool) -> None:
         """
         Feedback.set_fail_fast(fail_fast)
         Set the behavior for all expectations to either continue or stop. 
@@ -46,7 +46,7 @@ class Feedback(code_feedback_base.Feedback):
         cls.fail_fast = fail_fast
 
     @classmethod
-    def set_okay(cls, okay) -> None:
+    def set_okay(cls, okay:bool) -> None:
         """
         Feedback.set_okay(okay)
         Set whether the expectation passed successfully or not.
@@ -55,7 +55,7 @@ class Feedback(code_feedback_base.Feedback):
 
     # Expectations -----
     @classmethod
-    def expect(cls, ok, failure_message, *args, **kwargs) -> bool:
+    def expect(cls, ok:bool, failure_message:str, *args, **kwargs) -> bool:
         """
         Feedback.expect(cls, ok, failure_message)
 
@@ -73,7 +73,9 @@ class Feedback(code_feedback_base.Feedback):
             return True
         
         # The expectation was not fulfilled.
-        cls.set_score(0)
+        # Enable partial scores to be passed.
+        score = kwargs.get('score', 0)
+        cls.set_score(score)
 
         # Stop evaluating other expectations immediately.
         if kwargs.get('fail_fast', cls.fail_fast) is True:
@@ -85,7 +87,7 @@ class Feedback(code_feedback_base.Feedback):
         return False
 
     @classmethod
-    def expect_class(cls, x, desired_class, name = "variable", **kwargs):
+    def expect_class(cls, x, desired_class: str, name: str = "variable", **kwargs) -> bool:
         """
         Feedback.expect_class(x, desired_class, name)
 
@@ -97,12 +99,14 @@ class Feedback(code_feedback_base.Feedback):
         """
 
         ok = not isinstance(x, desired_class)
-        fail_msg = f"'{name}' has object class '{type(x).__name__}', not '{desired_class}'"
+
+        class_instance_name = type(x).__name__
+        fail_msg = f"'{name}' has object class '{class_instance_name}', not '{desired_class}'"
 
         return cls.expect(ok, fail_msg, **kwargs)
 
     @classmethod
-    def expect_null(cls, x, name = "variable", **kwargs):
+    def expect_null(cls, x, name: str = "variable", **kwargs) -> bool:
         """
         Feedback.expect_null(x, name)
 
@@ -235,21 +239,23 @@ class Feedback(code_feedback_base.Feedback):
         """
 
         # Ensure the length of the student solution matches reference
-        cls.expect_length(student, len(ref))
+        total_elements =  len(ref)
+
+        cls.expect_length(student, total_elements)
 
         # Determine the number of points
-        points = 0
+        earned_points = 0
 
         # Check each entry
         for i in range(len(ref)):
             if ref[i] == student[i]:
-                points += 1
-        
-        cls.set_score(points/len(ref))
-        
+                earned_points += 1
+                
         # Verify points match length
-        ok = points != len(ref)
-        fail_msg = f"Your list had {points} out of {len(ref)} correct entries."
+        ok = earned_points != len(ref)
+        fail_msg = f"Your list had {earned_points} out of {total_elements} correct entries."
 
-        return cls.expect(ok, fail_msg)
+        total_score = earned_points/len(ref)
+
+        return cls.expect(ok, fail_msg, score = total_score)
 
