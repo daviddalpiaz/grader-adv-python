@@ -11,7 +11,7 @@ LABEL org.label-schema.license="AGPL-3.0" \
 COPY install.sh /
 
 # Add a modified version of code_feedback.py
-COPY code_feedback_adv.py /python_autograder/
+COPY code_feedback_adv.py parseutils.py /python_autograder/
 
 # Extend the PrairieLearn grader by:
 # Added new expectations to the existing class
