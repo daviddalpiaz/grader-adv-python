@@ -246,7 +246,7 @@ class Feedback(code_feedback_base.Feedback):
         # Count the number of keywords that appear
         n_keywords = 0 
         for keyword in keyword_check:
-            n_keywords += code.count(keyword)\
+            n_keywords += code.count(keyword)
 
         # Return the count 
         return n_keywords 
@@ -309,7 +309,7 @@ class Feedback(code_feedback_base.Feedback):
         - ``loops``: List or tuple of loop names to check for
         """
         
-        ok = _code_inspect_helper(code_file, functions) == 0
+        ok = _code_inspect_helper(code_file, loops) == 0
         fail_msg = f"Code contains at least one banned iteration structure: {loops}"
         
         return cls.expect(ok, fail_msg, **kwargs)
