@@ -2,6 +2,7 @@
 
 from __future__ import division, print_function
 import code_feedback_base
+from parseutils import extract_names_file
 
 __copyright__ = "Copyright (C) 2014 - Current: Andreas Kloeckner, 2022: James J Balamuta"
 
@@ -226,7 +227,93 @@ class Feedback(code_feedback_base.Feedback):
         fail_msg = f"'{name}' has dtype '{x.dtype}', not '{dtype}'."
         
         return cls.expect(ok, fail_msg, **kwargs)
+    
+        @classmethod
+    
+    def _code_inspect_helper(cls, code_file, keyword_check):
+        """
+        _code_inspect_helper(code_file, keyword_check)
 
+        Verify the presence of keywords inside of the code.
+        
+        - ``code_file``: Location of code file to parse.
+        - ``keyword_check``: List or tuple containing the keywords to search for.
+        """
+        
+        # Obtain a tokenized version of the student code
+        code = extract_names_file(fname)
+        
+        # Count the number of keywords that appear
+        n_keywords = 0 
+        for keyword in keyword_check:
+            n_keywords += code.count(keyword)\
+
+        # Return the count 
+        return n_keywords 
+    
+    def expect_no_import(cls, code_file = "user_code.py", **kwargs):
+        """
+        Feedback.expect_no_import(x, code_file)
+
+        Verify the code file omits import statements. 
+        
+        - ``code_file``: Location of the Python code to validate
+        """
+
+        ok = _code_inspect_helper(code_file, ["import"]) == 0
+        fail_msg = f"Code contains an import statement. Please do not import additional libraries."
+        
+        return cls.expect(ok, fail_msg, **kwargs)
+    
+    def expect_no_banned_function(cls, code_file = "user_code.py", functions = [''], **kwargs):
+        """
+        Feedback.expect_no_banned_function(x, code_file, functions)
+
+        Verify the code file does not contain a banned function
+        
+        - ``code_file``: Location of the Python code to validate
+        - ``functions``: List or tuple of function names to check for
+        """
+        
+        function_list_described = ", ".join([f"{func}()" for x in functions])
+
+        ok = _code_inspect_helper(code_file, functions) == 0
+        fail_msg = f"Code contains at least one of the banned functions: {function_list_described}"
+        
+        return cls.expect(ok, fail_msg, **kwargs)
+
+    def expect_function_present(cls, code_file = "user_code.py", functions = [''], **kwargs):
+        """
+        Feedback.expect_function_present(x, code_file, functions)
+
+        Verify the code file contains instances of a desired function. 
+        
+        - ``code_file``: Location of the Python code to validate
+        - ``functions``: List or tuple of function names to check for
+        """
+        
+        function_list_described = ", ".join([f"{func}()" for x in functions])
+
+        ok = _code_inspect_helper(code_file, functions) == len(functions)
+        fail_msg = f"Code is missing at least one of the required functions: {function_list_described}"
+        
+        return cls.expect(ok, fail_msg, **kwargs)
+    
+    def expect_no_iteration(cls, code_file = "user_code.py", loops = ['for', 'while'], **kwargs):
+        """
+        Feedback.expect_no_iteration(x, code_file, functions)
+
+        Verify the code file omits iteration statements like 'for' and 'while'.
+        
+        - ``code_file``: Location of the Python code to validate
+        - ``loops``: List or tuple of loop names to check for
+        """
+        
+        ok = _code_inspect_helper(code_file, functions) == 0
+        fail_msg = f"Code contains at least one banned iteration structure: {loops}"
+        
+        return cls.expect(ok, fail_msg, **kwargs)
+    
     @classmethod
     def check_list_entries(cls, ref, student):
         """
