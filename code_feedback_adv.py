@@ -319,7 +319,7 @@ class Feedback(code_feedback_base.Feedback):
         """
         
         # Obtain true keywords
-        checked_keywords, true_keywords, false_keywords = cls._code_inspect_helper(code_file, functions)
+        checked_keywords, true_keywords, false_keywords = cls._code_inspect_helper(code_file, loops)
 
         # Determine which prohibit keywords appeared
         ok = not any(checked_keywords.values())
