@@ -243,13 +243,17 @@ class Feedback(code_feedback_base.Feedback):
         # Obtain a tokenized version of the student code
         code = extract_names_file(code_file)
         
-        # Count the number of keywords that appear
-        n_keywords = 0 
+        # Design a dictionary to detect what keywords appear
+        checked_keywords = dict.fromkeys(keyword_check, 0)
         for keyword in keyword_check:
-            n_keywords += code.count(keyword)
+            checked_keywords[keyword] = code.count(keyword) > 0
+
+        # Determine keywords that appear or not
+        true_keywords = ", ".join(key for key, value in checked_keywords.items() if value)
+        false_keywords = ", ".join(key for key, value in checked_keywords.items() if not value)
 
         # Return the count 
-        return n_keywords 
+        return checked_keywords, true_keywords, false_keywords
 
     @classmethod
     def expect_no_import(cls, code_file = "user_code.py", import_keywords = ["import", "from", "as"], **kwargs):
@@ -261,7 +265,8 @@ class Feedback(code_feedback_base.Feedback):
         - ``code_file``: Location of the Python code to validate
         """
 
-        ok = cls._code_inspect_helper(code_file, import_keywords) == 0
+        checked_keywords, *_ = cls._code_inspect_helper(code_file, import_keywords)
+        ok = not any(checked_keywords.values())
         fail_msg = f"Code contains an import statement. Please do not import additional libraries."
         
         return cls.expect(ok, fail_msg, **kwargs)
@@ -277,10 +282,10 @@ class Feedback(code_feedback_base.Feedback):
         - ``functions``: List or tuple of function names to check for
         """
         
-        function_list_described = ", ".join([f"{func}()" for func in functions])
+        checked_keywords, true_keywords, *_ = cls._code_inspect_helper(code_file, functions)
+        ok = not any(checked_keywords.values())
 
-        ok = cls._code_inspect_helper(code_file, functions) == 0
-        fail_msg = f"Code contains at least one of the banned functions: {function_list_described}"
+        fail_msg = f"Code contains at least one of the banned functions: {true_keywords}"
         
         return cls.expect(ok, fail_msg, **kwargs)
 
@@ -295,10 +300,10 @@ class Feedback(code_feedback_base.Feedback):
         - ``functions``: List or tuple of function names to check for
         """
         
-        function_list_described = ", ".join([f"{func}()" for func in functions])
+        checked_keywords, true_keywords, false_keywords = cls._code_inspect_helper(code_file, functions)
+        ok = all(checked_keywords.values())
 
-        ok = cls._code_inspect_helper(code_file, functions) == len(functions)
-        fail_msg = f"Code is missing at least one of the required functions: {function_list_described}"
+        fail_msg = f"Code is missing at least one of the required functions: {false_keywords}"
         
         return cls.expect(ok, fail_msg, **kwargs)
 
@@ -313,8 +318,12 @@ class Feedback(code_feedback_base.Feedback):
         - ``loops``: List or tuple of loop names to check for
         """
         
-        ok = cls._code_inspect_helper(code_file, loops) == 0
-        fail_msg = f"Code contains at least one banned iteration structure: {loops}"
+        # Obtain true keywords
+        checked_keywords, true_keywords, false_keywords = cls._code_inspect_helper(code_file, functions)
+
+        # Determine which prohibit keywords appeared
+        ok = not any(checked_keywords.values())
+        fail_msg = f"Code contains at least one banned iteration structure: {true_keywords}"
         
         return cls.expect(ok, fail_msg, **kwargs)
     
