@@ -2,6 +2,7 @@
 
 from __future__ import division, print_function
 import code_feedback_base
+from code_feedback_base import GradingComplete
 from parseutils import extract_names_file
 
 __copyright__ = "Copyright (C) 2014 - Current: Andreas Kloeckner, 2022: James J Balamuta"
