@@ -256,9 +256,9 @@ class Feedback(code_feedback_base.Feedback):
         return checked_keywords, true_keywords, false_keywords
 
     @classmethod
-    def expect_no_import(cls, code_file = "user_code.py", import_keywords = ["import", "from", "as"], **kwargs):
+    def expect_import_missing(cls, code_file = "user_code.py", import_keywords = ["import", "from", "as"], **kwargs):
         """
-        Feedback.expect_no_import(x, code_file)
+        Feedback.expect_import_missing(x, code_file)
 
         Verify the code file omits import statements. 
         
@@ -272,9 +272,9 @@ class Feedback(code_feedback_base.Feedback):
         return cls.expect(ok, fail_msg, **kwargs)
 
     @classmethod
-    def expect_no_banned_function(cls, code_file = "user_code.py", functions = [''], **kwargs):
+    def expect_function_missing(cls, code_file = "user_code.py", functions = [''], **kwargs):
         """
-        Feedback.expect_no_banned_function(x, code_file, functions)
+        Feedback.expect_function_missing(x, code_file, functions)
 
         Verify the code file does not contain a banned function
         
@@ -308,9 +308,9 @@ class Feedback(code_feedback_base.Feedback):
         return cls.expect(ok, fail_msg, **kwargs)
 
     @classmethod    
-    def expect_no_iteration(cls, code_file = "user_code.py", loops = ['for', 'while'], **kwargs):
+    def expect_iteration_missing(cls, code_file = "user_code.py", loops = ['for', 'while'], **kwargs):
         """
-        Feedback.expect_no_iteration(x, code_file, functions)
+        Feedback.expect_iteration_missing(x, code_file, functions)
 
         Verify the code file omits iteration statements like 'for' and 'while'.
         
@@ -326,6 +326,20 @@ class Feedback(code_feedback_base.Feedback):
         fail_msg = f"Code contains at least one banned iteration structure: {true_keywords}"
         
         return cls.expect(ok, fail_msg, **kwargs)
+    
+    # Aliases 
+    # Renaming for better symmetry
+    @classmethod
+    def expect_no_iteration(cls, code_file = "user_code.py", loops = ['for', 'while'], **kwargs):
+        return cls.expect_iteration_missing(code_file = code_file, loops = loops, **kwargs)
+    
+    @classmethod
+    def expect_no_banned_function(cls, code_file = "user_code.py", functions = [''], **kwargs):
+        return cls.expect_function_missing(code_file = code_file, functions = functions, **kwargs)
+    
+    @classmethod
+    def expect_no_import(cls, code_file = "user_code.py", import_keywords = ["import", "from", "as"], **kwargs):
+        return cls.expect_iteration_missing(code_file = code_file, import_keywords = import_keywords, **kwargs)
     
     @classmethod
     def check_list_entries(cls, ref, student):
