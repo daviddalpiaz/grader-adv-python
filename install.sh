@@ -18,5 +18,5 @@ python -c 'import sys;print("%x" % sys.maxsize, sys.maxsize > 2**32)'
 echo "[install] latest pip version ..."
 pip install --upgrade pip
 
-#echo "[install] Python packages from pypi ..."
-#python3 -m pip install --no-cache-dir -r /requirements-dl.txt
+echo "[install] Python packages from pypi ..."
+python3 -m pip install --no-cache-dir -r /requirements-ds.txt
