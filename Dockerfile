@@ -8,7 +8,7 @@ LABEL org.label-schema.license="AGPL-3.0" \
       maintainer="James Joseph Balamuta <balamut2@illinois.edu>"
 
 # Add layer for any additional Python packages
-COPY install.sh /
+COPY install.sh requirements-ds.txt /
 
 # Add a modified version of code_feedback.py
 COPY code_feedback_adv.py parseutils.py /python_autograder/
