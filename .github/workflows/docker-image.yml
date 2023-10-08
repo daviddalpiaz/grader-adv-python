@@ -25,10 +25,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       # https://github.com/marketplace/actions/build-and-push-docker-images
-      - name: Build and push jamesbalamuta/grader-adv-python
+      - name: Build and push daviddalpiaz/grader-adv-python
         uses: docker/build-push-action@v2 
         with:
           platforms: linux/amd64,linux/arm64
           push: true
           no-cache: true
-          tags: jamesbalamuta/grader-adv-python:latest
+          tags: daviddalpiaz/grader-adv-python:latest
