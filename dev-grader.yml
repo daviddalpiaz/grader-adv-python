@@ -3,7 +3,7 @@ channels:
 - conda-forge
 - plotly
 dependencies:
-- python=3.12
+- python=3.11
 - pip>=22.0
 - jupyter
 - jupyterlab
